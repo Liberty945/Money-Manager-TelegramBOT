@@ -2,7 +2,6 @@ from config import TOKEN_API as bot_token
 from aiogram import Bot, Dispatcher, types
 from keyboards import get_keyboard, get_inline_keyboard
 from database import add_cash, load_cash, plus_cash, minus_cash
-from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
@@ -73,7 +72,7 @@ async def check_isdigit(message: types.Message):
 
 
 @dp.message_handler(state=Operations.plus)
-async def plus_cash_db(message: types.Message, state: FSMContext):
+async def plus_cash_db(message: types.Message):
     global counter_plus, counter_minus
     await plus_cash(message.text, message.chat.id)
     counter_plus, counter_minus = 0, 0
@@ -82,7 +81,7 @@ async def plus_cash_db(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=Operations.minus)
-async def minus_cash_db(message: types.Message, state: FSMContext):
+async def minus_cash_db(message: types.Message):
     global counter_plus, counter_minus
     await minus_cash(message.text, message.chat.id)
     counter_plus, counter_minus = 0, 0
